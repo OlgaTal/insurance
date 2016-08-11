@@ -1,5 +1,8 @@
 package com.compozed.models;
 
+import com.compozed.util.Mysql;
+import org.hibernate.Session;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +19,15 @@ public class Policy {
     private Client policy_holder;
     private List<Client> drivers;
 
-
     public Policy() {
     }
 
     public Policy(Client policy_holder) {
         this.policy_holder = policy_holder;
-        this.premium = 100.1f; //TODO replace value with Rates.calculateRates(Client)
         this.drivers = new ArrayList<>();
         this.drivers.add(policy_holder);
+
+        this.premium = calculatePremium();
     }
 
     @Id
@@ -47,8 +50,6 @@ public class Policy {
     public void setPremium(float premium) {
         this.premium = premium;
     }
-//    @ManyToOne
-//    @JoinColumn(name = "shelter_id", referencedColumnName = "id")
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "policy_holder_id", nullable = false, referencedColumnName = "id")
@@ -78,5 +79,15 @@ public class Policy {
 
     public void setDrivers(List<Client> drivers) {
         this.drivers = drivers;
+    }
+
+    private float calculatePremium() {
+//        String hql = "from rates";
+//        Session session = Mysql.getSession();
+//        Query query = session.createQuery(hql);
+//        List<Rate> rates = query.getResultList();
+//        session.close();
+
+        return 0f;
     }
 }
