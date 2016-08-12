@@ -28,10 +28,13 @@ public class RateTest {
         Rate rate1 = new Rate(50, "M", "gender");
         Rate rate2 = new Rate(50, "25", "age");
         Rate rate3 = new Rate(55, "1", "claim");
+        Rate rate4 = new Rate(45, "F", "gender");
+
         session.save(rate);
         session.save(rate1);
         session.save(rate2);
         session.save(rate3);
+        session.save(rate4);
 
         session.getTransaction().commit();
         session.close();

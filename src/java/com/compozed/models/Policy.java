@@ -5,6 +5,8 @@ import org.hibernate.Session;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -82,12 +84,31 @@ public class Policy {
     }
 
     private float calculatePremium() {
-//        String hql = "from rates";
-//        Session session = Mysql.getSession();
-//        Query query = session.createQuery(hql);
-//        List<Rate> rates = query.getResultList();
-//        session.close();
+        String hql = "from Rate";
+        Session session = Mysql.getSession();
+        Query query = session.createQuery(hql);
+        List<Rate> rates = query.getResultList();
+        session.close();
 
-        return 0f;
+        float total = 0f;
+
+        for (Rate rt : rates) {
+            if ("base".equals(rt.getField())) {
+                total += rt.getAmount();
+            } else if ("gender".equals(rt.getField())) {
+                if (rt.getValue().equals(policy_holder.getGender().name())) {
+                    total += rt.getAmount();
+                }
+            } else if ("age".equals(rt.getField())) {
+                Calendar c = Calendar.getInstance();
+                c.setTime(policy_holder.getBirthdate());
+                c.add(Calendar.YEAR, Integer.parseInt(rt.getValue()));
+                if (c.getTimeInMillis() - Calendar.getInstance().getTimeInMillis() < 0) {
+                    total += rt.getAmount();
+                }
+            }
+        }
+
+        return total;
     }
 }

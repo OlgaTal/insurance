@@ -13,8 +13,10 @@ public class Mysql {
     static {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()
-                .applySetting("hibernate.connection.username", System.getenv("MYSQL_USER"))
-                .applySetting("hibernate.connection.password", System.getenv("MYSQL_PASS"))
+                .applySetting("hibernate.connection.username", "root")
+                .applySetting("hibernate.connection.password", "pass@word1")
+//                .applySetting("hibernate.connection.username", System.getenv("MYSQL_USER"))
+//                .applySetting("hibernate.connection.password", System.getenv("MYSQL_PASS"))
                 .build();
 
         try {
